@@ -23,9 +23,12 @@ const Navbar = () => {
       <div className="navbar-right">
         <img src={search} alt="" />
         <p>Children</p>
-        <img src={bell} alt="" />
-        <img src={profile} alt="" />
-        <img src={caret} alt="" />
+        <img src={bell} alt="" className="icons" />
+
+        <div className="navbar-right-icons">
+          <img src={profile} alt="" className="profile" />
+          <img src={caret} alt="" />
+        </div>
       </div>
     </div>
   );
