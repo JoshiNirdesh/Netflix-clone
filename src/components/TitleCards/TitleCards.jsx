@@ -1,17 +1,42 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./titlecards.css";
 import cards_data from "../../assets/cards/Cards_data";
 
 const TitleCards = ({ title, category }) => {
+  const [apiData, setApiData] = useState([]);
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3ZjkzMTQyNjVhMDliMDhjZWQ4OTg2OTc3MzQ4YmVhOCIsIm5iZiI6MTc1MjQ3NzY3OS41MDgsInN1YiI6IjY4NzRhZmVmOTAwYTdiY2NjNGVkODI5OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Zmd9qH27y8Ekq-0-E2TxgKxXRMs56LnsvlGbtGIJZvE",
+    },
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
+        "https://api.themoviedb.org/3/trending/movie/day?language=en-US",
+        options
+      );
+      const json = await response.json();
+      setApiData(json.results);
+      console.log(apiData);
+    };
+    fetchData();
+  }, []);
   return (
     <div className="title-cards">
       <h2>{title ? title : "Popular on Netfilx"}</h2>
       <div className="card-list">
-        {cards_data.map((card, index) => {
+        {apiData.map((card, index) => {
           return (
             <div className="card" key={index}>
-              <img src={card.image} alt="" />
-              <p>{card.name}</p>
+              <img
+                src={`https://image.tmdb.org/t/p/w500` + card.backdrop_path}
+                alt=""
+              />
+              <p>{card.original_title}</p>
             </div>
           );
         })}
